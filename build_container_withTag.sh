@@ -13,24 +13,24 @@ else
     read input
 
     if [[ $input == "Yes" ]]; then
-	
+
 	echo "Start building" `date`
-        
+
 	## copy the ccp dev dir
-        
-        mkdir -p circompara2
-        rsync -avPh /home/enrico/threesum_mount/tools/circompara2/src circompara2/
-        rsync -avPh /home/enrico/threesum_mount/tools/circompara2/circompara2 circompara2/
-        
+
+        # mkdir -p circompara2
+        # rsync -avPh /home/enrico/threesum_mount/tools/circompara2/src circompara2/
+        # rsync -avPh /home/enrico/threesum_mount/tools/circompara2/circompara2 circompara2/
+
         ## build the docker container
         docker build --build-arg INSTALL_THREADS=6 -t circompara2:$1 .
-        
+
         ## save the built docker image
         docker save -o circompara2$1.tar circompara2:$1
-        
+
         ## deploy to threesum
         rsync -a circompara2$1.tar threesum:tools/dockers/
-        
+
         mkdir -p old_tars
         mv circompara2$1.tar old_tars
 
