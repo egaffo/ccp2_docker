@@ -22,8 +22,8 @@ else
         # rsync -avPh /home/enrico/threesum_mount/tools/circompara2/src circompara2/
         # rsync -avPh /home/enrico/threesum_mount/tools/circompara2/circompara2 circompara2/
 
-        ## build the docker container
-        docker build --build-arg INSTALL_THREADS=6 -t circompara2:$1 .
+        ## build the docker container  --no-cache
+        docker build --build-arg INSTALL_THREADS=4 -t circompara2:$1 .
 
         ## save the built docker image
         docker save -o circompara2$1.tar circompara2:$1

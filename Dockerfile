@@ -20,6 +20,7 @@ ENV PATH=$DEST/$VERSION/:$DEST/src/utils/bash/:$PATH
 
 ## mind that this does not work if circompara2 is a symlink :(
 #ADD circompara2 /circompara2
+ADD packs /packs
 
 RUN apt-get update && \
     apt-get install -y dirmngr gnupg apt-transport-https ca-certificates software-properties-common && \
@@ -46,7 +47,7 @@ RUN apt-get update && \
     && echo "Using $CPUS to install R packages" \
     && git clone $GIT \
     && cd $APP_NAME \
-    && git checkout -b $VERSION \
+    && git switch $VERSION \
     && ln -s src/utils/bash/install_circompara \
     && ./install_circompara -j${INSTALL_THREADS} \
     && rm -rf .git \
@@ -55,8 +56,12 @@ RUN apt-get update && \
     && rm -rf tools/*.bz2 \
     && rm -rf /var/lib/apt/lists/* \
     && sed -i "s_echo -e_echo_" src/sconstructs/collect_circrnas.py \
-    && sed -i "s_echo -e_echo_" src/sconstructs/circrna_linear_expression.py \
-    && cd ../
+    && sed -i "s_echo -e_echo_" src/sconstructs/circrna_linear_expression.py
+
+RUN tar -xf packs/parallel-20200922-0.tar.bz2 -C /$APP_NAME/tools/parallel
+    #&& cd /$APP_NAME/tools \
+    #&& wget "https://anaconda.org/conda-forge/parallel/20200922/download/linux-64/parallel-20200922-0.tar.bz2" \
+    #&& tar -xf parallel-20200922-0.tar.bz2 -C parallel
 
 WORKDIR /data
 
