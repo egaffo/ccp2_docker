@@ -24,6 +24,7 @@ else
 
         ## build the docker container  --no-cache
         docker build --build-arg INSTALL_THREADS=4 -t circompara2:$1 .
+        #docker build --no-cache --build-arg INSTALL_THREADS=4 -t circompara2:$1 .
 
         ## save the built docker image
         docker save -o circompara2$1.tar circompara2:$1
