@@ -23,14 +23,14 @@ else
         # rsync -avPh /home/enrico/threesum_mount/tools/circompara2/circompara2 circompara2/
 
         ## build the docker container  --no-cache
-        docker build --build-arg INSTALL_THREADS=4 -t circompara2:$1 .
-        #docker build --no-cache --build-arg INSTALL_THREADS=4 -t circompara2:$1 .
+        #docker build --build-arg INSTALL_THREADS=1 -t circompara2:$1 .
+        docker build --no-cache --build-arg INSTALL_THREADS=1 -t circompara2:$1 .
 
         ## save the built docker image
         docker save -o circompara2$1.tar circompara2:$1
 
         ## deploy to threesum
-        rsync -a circompara2$1.tar threesum:tools/dockers/
+        #rsync -a circompara2$1.tar threesum:tools/dockers/
 
         mkdir -p old_tars
         mv circompara2$1.tar old_tars
